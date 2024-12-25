@@ -7,7 +7,6 @@ public class CosmicValidator implements ConstraintValidator<CosmicValidation, St
 
     @Override
     public void initialize(CosmicValidation constraintAnnotation) {
-        // Инициализация, если требуется
     }
 
     @Override
