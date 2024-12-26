@@ -11,12 +11,15 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.example.spacecats.ExternalApiClient;
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
     properties = {
-        "external.service.url=http://localhost:8081"
+        "external.service.url=http://localhost:${wiremock.server.port}"
     }
 )
+
 @AutoConfigureWireMock(port = 0)
 class ExternalApiClientTest {
 
