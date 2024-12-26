@@ -1,32 +1,20 @@
 package org.example.spacecats.mappers;
 
-import org.example.spacecats.dto.ItemRequestDTO;
-import org.example.spacecats.dto.ItemResponseDTO;
-import org.example.spacecats.entities.Product;
+import org.example.spacecats.domain.Product;
+import org.example.spacecats.dto.CreateItemRequest;
+import org.example.spacecats.dto.ItemResponse;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class ItemMapper {
+@Mapper(componentModel = "spring")
+public interface ItemMapper {
 
-    public Product toEntity(ItemRequestDTO dto) {
-        Product product = new Product();
-        product.setItemName(dto.getName());
-        product.setItemDescription(dto.getDescription());
-        product.setItemCost(dto.getPrice());
-        return product;
-    }
+    @Mapping(target = "id", ignore = true)
+    Product toDomain(CreateItemRequest dto);
 
-    public ItemResponseDTO toResponseDTO(Product product) {
-        ItemResponseDTO response = new ItemResponseDTO();
-        response.setId(product.getItemId());
-        response.setName(product.getItemName());
-        response.setDescription(product.getItemDescription());
-        response.setPrice(product.getItemCost());
-        return response;
-    }
+    ItemResponse toResponse(Product product);
 
-    public List<ItemResponseDTO> toResponseDTOList(List<Product> products) {
-        return products.stream().map(this::toResponseDTO).collect(Collectors.toList());
-    }
+    List<ItemResponse> toResponseList(List<Product> products);
 }
