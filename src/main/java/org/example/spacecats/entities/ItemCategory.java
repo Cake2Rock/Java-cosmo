@@ -1,6 +1,9 @@
 package org.example.spacecats.entities;
 
 import java.util.UUID;
+
+import org.example.spacecats.domain.Product;
+
 import java.util.List;
 
 public class ItemCategory {

@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.example.spacecats.domain.Product;
+
 public class CustomerOrder {
     private UUID orderId;
     private LocalDateTime orderPlacedOn;

@@ -11,6 +11,8 @@ public class CosmicValidator implements ConstraintValidator<CosmicValidation, St
             return false;
         }
         String lowercaseValue = value.toLowerCase();
-        return lowercaseValue.contains("star") || lowercaseValue.contains("galaxy") || lowercaseValue.contains("comet");
+        return lowercaseValue.contains("star")
+            || lowercaseValue.contains("galaxy")
+            || lowercaseValue.contains("comet");
     }
 }
