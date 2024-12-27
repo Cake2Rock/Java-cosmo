@@ -1,5 +1,6 @@
 package org.example.spacecats.controllers;
 
+import org.example.spacecats.controllers.ItemController;
 import org.example.spacecats.domain.Product;
 import org.example.spacecats.dto.ItemResponse;
 import org.example.spacecats.mappers.ItemMapper;
@@ -99,37 +100,39 @@ class ItemControllerTest {
                 .andExpect(status().isNotFound());
     }
 
-    @Test
-    void testCreateItem_success() throws Exception {
-        String newItemJson = """
-            {
-                "name": "New Product",
-                "description": "Something cosmic",
-                "price": 123.45
-            }
-            """;
+@Test
+void testCreateItem_success() throws Exception {
+    String newItemJson = """
+        {
+            "name": "New Product",
+            "description": "Something cosmic",
+            "price": 123.45
+        }
+        """;
 
-        UUID createdId = UUID.randomUUID();
-        Product savedProduct = new Product();
-        savedProduct.setId(createdId);
-        savedProduct.setName("New Product");
-        savedProduct.setDescription("Something cosmic");
-        savedProduct.setPrice(123.45);
+    UUID createdId = UUID.randomUUID();
+    Product savedProduct = new Product();
+    savedProduct.setId(createdId);
+    savedProduct.setName("New Product");
+    savedProduct.setDescription("Something cosmic");
+    savedProduct.setPrice(123.45);
 
-        ItemResponse savedResponse = new ItemResponse();
-        savedResponse.setId(createdId);
-        savedResponse.setName("New Product");
-        savedResponse.setDescription("Something cosmic");
-        savedResponse.setPrice(123.45);
+    ItemResponse savedResponse = new ItemResponse();
+    savedResponse.setId(createdId);
+    savedResponse.setName("New Product");
+    savedResponse.setDescription("Something cosmic");
+    savedResponse.setPrice(123.45);
 
-        Mockito.when(itemService.addItem(any(Product.class))).thenReturn(savedProduct);
-        Mockito.when(itemMapper.toResponse(any(Product.class))).thenReturn(savedResponse);
+    Mockito.when(itemMapper.toDomain(any())).thenReturn(savedProduct);
+    Mockito.when(itemService.addItem(savedProduct)).thenReturn(savedProduct);
+    Mockito.when(itemMapper.toResponse(savedProduct)).thenReturn(savedResponse);
 
-        mockMvc.perform(post("/api/v1/items")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(newItemJson))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").value(createdId.toString()))
-                .andExpect(jsonPath("$.name").value("New Product"));
-    }
+    mockMvc.perform(post("/api/v1/items")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(newItemJson))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$.id").value(createdId.toString()))
+            .andExpect(jsonPath("$.name").value("New Product"));
+}
+
 }
